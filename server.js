@@ -65,7 +65,9 @@ app.post('/myaction', function (req, res) {
 	let destlatlng = req.body.destination
 	let alpha = req.body.alpha
 
-	const url='https://frontvisionzero.herokuapp.com/'
+	const url='https://backvisionzero.herokuapp.com/'
+	// const url='https://localhost:8081/'
+
 	//query_params={origin:4163883691,destination:42435675,alpha:0.123};
 	const query_params={origin:originlatlng,destination:destlatlng,alpha:alpha}
 	request({"url":url,qs:query_params}, function(err) {
