@@ -65,22 +65,26 @@ app.post('/myaction', function (req, res) {
 	let destlatlng = req.body.destination
 	let alpha = req.body.alpha
 
-	const url='https://backvisionzero.herokuapp.com/'
-	// const url='https://localhost:8081/'
+	const url='http://backvisionzero.herokuapp.com/'
+	// const url='http://localhost:8081/'
 
 	//query_params={origin:4163883691,destination:42435675,alpha:0.123};
 	const query_params={origin:originlatlng,destination:destlatlng,alpha:alpha}
-	request({"url":url,qs:query_params}, function(err) {
-		if (err) throw err
-		var obj
-		fs.readFile('output.json', 'utf8', function (err, data) {
-			if (err) throw err
-			obj = JSON.parse(data)
-			console.log('New center is ' + obj['center'])
-			console.log('Safetest Path is ' + (JSON.stringify(obj['coordinates'])).replace(/\s/g,''))
-			console.log('Alpha value is ' + (JSON.stringify(obj['alpha'])))
-			res.render('index', {center: JSON.stringify(obj['center']), coordinates: (JSON.stringify(obj['coordinates'])).replace(/\s/g,'')})
-		})
+	request({"url":url,qs:query_params}, function(err, data) {
+		if (err) {
+			// console.log(err);
+			throw err;
+		}
+		// console.log(JSON.stringify(data.body));
+		// console.log(JSON.stringify(data));
+		var obj;
+		// fs.readFile('output.json', 'utf8', function (err, data) {
+		obj = JSON.parse(data.body)
+		console.log(obj);
+		console.log('New center is ' + obj['center'])
+		console.log('Safetest Path is ' + (JSON.stringify(obj['coordinates'])).replace(/\s/g,''))
+		console.log('Alpha value is ' + (JSON.stringify(obj['alpha'])))
+		res.render('index', {center: JSON.stringify(obj['center']), coordinates: (JSON.stringify(obj['coordinates'])).replace(/\s/g,'')})
 	});
 
 
